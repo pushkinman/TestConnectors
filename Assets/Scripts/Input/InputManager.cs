@@ -5,11 +5,11 @@ namespace TestConnectors.Input
 {
     public class InputManager : IInputManager
     {
-        public IInputProvider InputProvider { get; }
+        public IInputProvider InputProviderInGame { get; }
 
         public InputManager()
         {
-            InputProvider = GameObjectExtensions.CreateGameObjectWithComponent<InputProvider>();
+            InputProviderInGame = GameObjectExtensions.CreateGameObjectWithComponent<InputProvider>();
         }
     }
 }

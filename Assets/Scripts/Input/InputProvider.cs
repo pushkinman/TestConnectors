@@ -6,9 +6,14 @@ namespace TestConnectors.Input
 {
     public class InputProvider : MonoBehaviour, IInputProvider
     {
-        public event Action<Vector2> PlayerMoved;
-        public event Action PlayerJumped;
-        public event Action<bool> FreeLookEnabled;
+        public event Action MouseDown;
+        public event Action MouseUp;
+        public event Action<Vector3> MousePositionChanged;
+
+        public bool IsMouseButtonDown(int button)
+        {
+            return UnityEngine.Input.GetMouseButton(button);
+        }
 
         private void Update()
         {
@@ -17,30 +22,19 @@ namespace TestConnectors.Input
 
         private void CheckInput()
         {
-            var xMov = UnityEngine.Input.GetAxis("Horizontal");
-            var yMov = UnityEngine.Input.GetAxis("Vertical");
-            var moveVector = new Vector3(xMov, yMov);
-
-            if (UnityEngine.Input.GetKey(KeyCode.LeftShift))
+            if (UnityEngine.Input.GetMouseButtonDown(0))
             {
-                moveVector *= 2;
+                MouseDown?.Invoke();
             }
 
-            PlayerMoved?.Invoke(moveVector);
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            if (UnityEngine.Input.GetMouseButtonUp(0))
             {
-                PlayerJumped?.Invoke();
+                MouseUp?.Invoke();
             }
 
-            if (UnityEngine.Input.GetMouseButtonDown(1))
+            if (UnityEngine.Input.GetMouseButton(0))
             {
-                FreeLookEnabled?.Invoke(true);
-            }
-
-            if (UnityEngine.Input.GetMouseButtonUp(1))
-            {
-                FreeLookEnabled?.Invoke(false);
+                MousePositionChanged?.Invoke(UnityEngine.Input.mousePosition);
             }
         }
     }

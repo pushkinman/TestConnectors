@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TestConnectors.Enums;
 using TestConnectors.Interfaces;
 using TestConnectors.Settings;
@@ -21,7 +22,7 @@ namespace TestConnectors.Spheres
             var sphereHolder = new GameObject(ProjectSettings.SphereHolderName);
             for (var i = 0; i < count; i++)
             {
-                var obj = _resourceManager.LoadResource<ConnectableSphere, EConnectable>(EConnectable.Connectable);
+                var obj = _resourceManager.LoadResource<Connectable, EConnectable>(EConnectable.Connectable);
                 var randomPosition = Random.insideUnitCircle * spawnRadius;
                 obj.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
                 obj.transform.SetParent(sphereHolder.transform);

@@ -5,8 +5,10 @@ namespace TestConnectors.Interfaces
 {
     public interface IInputProvider
     {
-        event Action<Vector2> PlayerMoved;
-        event Action PlayerJumped;
-        event Action<bool> FreeLookEnabled;
+        event Action MouseDown;
+        event Action MouseUp;
+        event Action<Vector3> MousePositionChanged;
+
+        bool IsMouseButtonDown(int button);
     }
 }

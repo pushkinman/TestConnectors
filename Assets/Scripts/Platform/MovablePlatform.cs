@@ -3,13 +3,18 @@ using UnityEngine;
 
 namespace TestConnectors.Platform
 {
-    public class MovablePlatform
+    public class MovablePlatform : MonoBehaviour
     {
-        public event Action<Vector2> PositionChanged;
+        public bool IsCursorOverPlatform { get; private set; }
 
-        private void OnMouseDown()
+        private void OnMouseEnter()
         {
-            PositionChanged?.Invoke(new Vector2(2,2));
+            IsCursorOverPlatform = true;
+        }
+
+        private void OnMouseExit()
+        {
+            IsCursorOverPlatform = false;
         }
     }
 }

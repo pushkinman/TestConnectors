@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8867404568797701718}
   - component: {fileID: 6505737108239907717}
   - component: {fileID: 6625398939140064837}
+  - component: {fileID: 2364409386477585737}
   m_Layer: 0
   m_Name: Platrform
   m_TagString: Untagged
@@ -95,6 +96,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2364409386477585737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317305797451883148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a74b21addb4150958ebfb7f2268cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7224230683840592854
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +120,6 @@ GameObject:
   - component: {fileID: 6734796079297714217}
   - component: {fileID: 2168407295058359912}
   - component: {fileID: 6748276688876454120}
-  - component: {fileID: 3095014662419366020}
   m_Layer: 0
   m_Name: Connector
   m_TagString: Untagged
@@ -191,18 +203,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3095014662419366020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7224230683840592854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2511e2967194052b85d7d1d7d0fb8e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7355775886437882563
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,5 +248,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9f8a08ebdf4398ac8c08739edb422a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
-  selectedObject: {fileID: 0}
+  movablePlatform: {fileID: 2364409386477585737}

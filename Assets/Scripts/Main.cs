@@ -9,14 +9,13 @@ namespace TestConnectors
     {
         [SerializeField] private float spawnRadius = ProjectSettings.SphereCount;
         [SerializeField] private int sphereCount = ProjectSettings.SphereCount;
-
-        private IInputManager _inputManager;
+        
         private IPlayerCamera _playerCamera;
         private ISpawner _spawner;
 
+
         private void Awake()
         {
-            _inputManager = CompositionRoot.GetInputManager();
             _playerCamera = CompositionRoot.GetPlayerCamera();
             _spawner = CompositionRoot.GetSpawner();
         }
