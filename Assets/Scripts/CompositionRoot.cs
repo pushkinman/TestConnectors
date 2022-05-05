@@ -1,16 +1,17 @@
 using TestConnectors.Cameras;
+using TestConnectors.Connectable;
 using TestConnectors.Enums;
 using TestConnectors.Extensions;
 using TestConnectors.Input;
 using TestConnectors.Interfaces;
-using TestConnectors.Spheres;
+using TestConnectors.Resources;
 
 namespace TestConnectors
 {
     public class CompositionRoot
     {
         private static IInputManager _inputManager;
-        private static ISpawner _spawner;
+        private static IConnectablesManager _connectablesManager;
         private static IPlayerCamera _playerCamera;
         private static IResourceManager _resourceManager;
 
@@ -19,9 +20,9 @@ namespace TestConnectors
             return _inputManager ??= new InputManager();
         }
         
-        public static ISpawner GetSpawner()
+        public static IConnectablesManager GetSpawner()
         {
-            return _spawner ??= GameObjectExtensions.CreateGameObjectWithComponent<SphereSpawner>();
+            return _connectablesManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesManager>();
         }
 
         public static IPlayerCamera GetPlayerCamera()

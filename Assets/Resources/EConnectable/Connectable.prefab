@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 6734796079297714217}
   - component: {fileID: 2168407295058359912}
   - component: {fileID: 6748276688876454120}
+  - component: {fileID: 1454271553540820251}
   m_Layer: 0
   m_Name: Connector
   m_TagString: Untagged
@@ -203,6 +204,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1454271553540820251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7224230683840592854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4514877785b44406bb4b018e9d488cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7355775886437882563
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,3 +262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movablePlatform: {fileID: 2364409386477585737}
+  selectableSphere: {fileID: 1454271553540820251}
+  selectedMaterial: {fileID: 2100000, guid: b3e832550ec6a4476b963a79cf87af97, type: 2}
+  awaitingMaterial: {fileID: 2100000, guid: 7546b1ae7624a40a39e2767ab796c6a7, type: 2}

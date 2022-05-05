@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace TestConnectors.Platform
+namespace TestConnectors.Connectable
 {
     public class MovablePlatform : MonoBehaviour
     {
