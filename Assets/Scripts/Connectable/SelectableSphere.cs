@@ -1,19 +1,22 @@
+using System;
+using TestConnectors.Enums;
+using TMPro;
 using UnityEngine;
 
 namespace TestConnectors.Connectable
 {
     public class SelectableSphere : MonoBehaviour
     {
-        public bool IsCursorOverSphere { get; private set; }
+        private MeshRenderer _meshRenderer;
 
-        private void OnMouseEnter()
+        private void Awake()
         {
-            IsCursorOverSphere = true;
+            _meshRenderer = GetComponent<MeshRenderer>();
         }
 
-        private void OnMouseExit()
+        public void ChangeMaterial(Material material)
         {
-            IsCursorOverSphere = false;
+            _meshRenderer.material = material;
         }
     }
 }

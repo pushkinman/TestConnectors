@@ -10,6 +10,8 @@ namespace TestConnectors.Input
         public event Action MouseUp;
         public event Action<Vector3> MousePositionChanged;
 
+        public Vector3 MousePosition => UnityEngine.Input.mousePosition;
+
         public bool IsMouseButtonDown(int button)
         {
             return UnityEngine.Input.GetMouseButton(button);
