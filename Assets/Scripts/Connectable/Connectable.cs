@@ -19,6 +19,7 @@ namespace TestConnectors.Connectable
         private IConnectablesManager _connectablesManager;
         
         public bool IsSphereSelected { get; set; }
+        public Transform ConnectionPoint => selectableSphere.transform;
 
         private void Awake()
         {

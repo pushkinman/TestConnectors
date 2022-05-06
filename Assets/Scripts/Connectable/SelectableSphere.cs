@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace TestConnectors.Connectable
 {
+    [RequireComponent(typeof(MeshRenderer))]
     public class SelectableSphere : MonoBehaviour
     {
         private MeshRenderer _meshRenderer;

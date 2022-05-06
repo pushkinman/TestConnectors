@@ -30,9 +30,10 @@ namespace TestConnectors.Connectable
         private void Start()
         {
             _inputProvider.MouseDown += CheckIfPlatformCanBeSelected;
-            _inputProvider.MouseDown += CheckIfSphereCanBeSelected;
             _inputProvider.MouseUp += DeselectMovablePlatform;
             _inputProvider.MousePositionChanged += TryMoveConnectable;
+            _inputProvider.MouseDown += CheckIfSphereCanBeSelected;
+
         }
 
         public void SpawnObjects(int count, float spawnRadius)
@@ -85,10 +86,9 @@ namespace TestConnectors.Connectable
             if (Physics.Raycast(ray, out var hit))
             {
                 var objectHit = hit.transform;
-                var selectedSphere = objectHit.GetComponent<SelectableSphere>();
-
-                Debug.Log(_selectedSphere == null);
-                if (selectedSphere == null)
+                var hitSphere = objectHit.GetComponent<SelectableSphere>();
+                
+                if (hitSphere == null)
                 {
                     DeselectSphere();
                 }
@@ -96,13 +96,14 @@ namespace TestConnectors.Connectable
                 {
                     if (_selectedSphere != null)
                     {
+                        CreateConnection(_selectedSphere.transform, hitSphere.transform);
                         DeselectSphere();
                     }
                     else
                     {
-                        selectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
-                        _selectedSphere = selectedSphere;
-                        UpdateSelectingState(ESelectingState.Selecting);
+                        hitSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
+                        _selectedSphere = hitSphere;
+                        UpdateSelectingState(ESelectingState.ClickingSelection);
                     }
                     
                 }
@@ -123,7 +124,7 @@ namespace TestConnectors.Connectable
 
         private void UpdateSelectingState(ESelectingState selectingState)
         {
-            if (selectingState == ESelectingState.Selecting)
+            if (selectingState == ESelectingState.ClickingSelection)
             {
                 foreach (var connectable in _connectables)
                 {
@@ -138,7 +139,11 @@ namespace TestConnectors.Connectable
                 }
             }
         }
-        
-        //private void Create
+
+        private void CreateConnection(Transform point1, Transform point2)
+        {
+            var connection = _resourceManager.LoadResource<Line, EConnection>(EConnection.RegularLine);
+            connection.CreateLine(point1, point2);
+        }
     }
 }
