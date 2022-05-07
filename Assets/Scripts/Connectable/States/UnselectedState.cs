@@ -26,7 +26,7 @@ namespace TestConnectors.Connectable.States
                     if (hitSphere == null) return;
 
                     hitSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
-                    connectablesStateManager.SelectedSphere = hitSphere;
+                    connectablesStateManager.FirstSelectedSphere = hitSphere;
 
                     connectablesStateManager.ChangeSelectionState(connectablesStateManager.HoldingState);
                 }

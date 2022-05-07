@@ -22,13 +22,13 @@ namespace TestConnectors.Connectable.States
                     var hitSphere = objectHit.GetComponent<SelectableSphere>();
 
                     if (hitSphere != null &&
-                        hitSphere.GetInstanceID() != connectablesStateManager.SelectedSphere.GetInstanceID())
+                        hitSphere.GetInstanceID() != connectablesStateManager.FirstSelectedSphere.GetInstanceID())
                     {
-                        connectablesStateManager.CreateConnection(connectablesStateManager.SelectedSphere.transform,
+                        connectablesStateManager.CreateConnection(connectablesStateManager.FirstSelectedSphere.transform,
                             hitSphere.transform);
                     }
 
-                    connectablesStateManager.DeselectSphere();
+                    connectablesStateManager.DeselectFirstSphere();
                     connectablesStateManager.ChangeSelectionState(connectablesStateManager.UnselectedState);
                 }
             }

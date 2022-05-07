@@ -11,6 +11,11 @@ namespace TestConnectors.Connectable
 {
     public class ConnectablesStateManager : MonoBehaviour, IConnectablesManager
     {
+        public readonly UnselectedState UnselectedState = new UnselectedState();
+        public readonly HoldingState HoldingState = new HoldingState();
+        public readonly ClickingState ClickingState = new ClickingState();
+        private BaseSelectionState _currentState;
+
         private readonly List<Connectable> _connectables = new List<Connectable>();
         private MovablePlatform _selectedPlatform;
 
@@ -18,13 +23,9 @@ namespace TestConnectors.Connectable
         private GameObject _connectionHolder;
 
         private IResourceManager _resourceManager;
-
-        private BaseSelectionState _currentState;
-        public readonly UnselectedState UnselectedState = new UnselectedState();
-        public readonly HoldingState HoldingState = new HoldingState();
-        public readonly ClickingState ClickingState = new ClickingState();
-
-        public SelectableSphere SelectedSphere { get; set; }
+        public SelectableSphere FirstSelectedSphere { get; set; }
+        public SelectableSphere SecondSelectedSphere { get; set; }
+        public Line CursorConnection { get; set; }
         public IInputProvider InputProvider { get; private set; }
         public IPlayerCamera PlayerCamera { get; private set; }
 
@@ -104,11 +105,19 @@ namespace TestConnectors.Connectable
 
         #endregion
 
-        public void DeselectSphere()
+        public void DeselectFirstSphere()
         {
-            if (SelectedSphere == null) return;
-            SelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
-            SelectedSphere = null;
+            if (FirstSelectedSphere == null) return;
+            FirstSelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
+            FirstSelectedSphere = null;
+        }
+
+        public void DeselectSecondSphere()
+        {
+            if (SecondSelectedSphere == null) return;
+
+            SecondSelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
+            SecondSelectedSphere = null;
         }
 
         public void UpdateSpheres(bool isColored)
@@ -135,6 +144,22 @@ namespace TestConnectors.Connectable
             connection.transform.SetParent(_connectionHolder.transform);
             connection.SetConnectionPoints(point1, point2);
             return connection;
+        }
+
+        public void UpdateCursorConnectionPoints(Transform point1, Transform point2)
+        {
+            if (CursorConnection != null)
+            {
+                CursorConnection.SetConnectionPoints(point1, point2);
+            }
+        }
+
+        public void DestroyCursorConnection()
+        {
+            if (CursorConnection != null)
+            {
+                CursorConnection.DestroyConnection();
+            }
         }
 
         public void ChangeSelectionState(BaseSelectionState state)
