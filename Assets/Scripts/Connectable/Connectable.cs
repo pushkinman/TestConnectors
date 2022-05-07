@@ -14,19 +14,10 @@ namespace TestConnectors.Connectable
         private Material _defaultSphereMaterial;
         private MeshRenderer _sphereMeshRenderer;
 
-        private IInputProvider _inputProvider;
-        private Camera _camera;
-        private IConnectablesManager _connectablesManager;
-        
         public bool IsSphereSelected { get; set; }
-        public Transform ConnectionPoint => selectableSphere.transform;
 
         private void Awake()
         {
-            _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
-            _camera = CompositionRoot.GetPlayerCamera().Camera;
-            _connectablesManager = CompositionRoot.GetSpawner();
-
             _sphereMeshRenderer = selectableSphere.GetComponent<MeshRenderer>();
             _defaultSphereMaterial = _sphereMeshRenderer.material;
         }

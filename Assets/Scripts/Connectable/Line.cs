@@ -16,15 +16,27 @@ namespace TestConnectors.Connectable
             _lineRenderer = GetComponent<LineRenderer>();
         }
 
-        public void CreateLine(params Transform[] connectionPoints)
-        {
-            _connectionPoints = connectionPoints;
-        }
-
         private void Update()
         {
             if (_connectionPoints == null) return;
-            _lineRenderer.SetPositions((from point in _connectionPoints select point.position).ToArray());
+            UpdateLinePoints();
+        }
+        
+        public void SetConnectionPoints(params Transform[] connectionPoints)
+        {
+            _connectionPoints = connectionPoints;
+            UpdateLinePoints();
+        }
+
+        public void DestroyConnection()
+        {
+            Destroy(gameObject);
+        }
+
+        private void UpdateLinePoints()
+        {
+            var pointPositions = (from point in _connectionPoints select point.position).ToArray();
+            _lineRenderer.SetPositions(pointPositions);
         }
     }
 }

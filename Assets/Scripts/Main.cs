@@ -7,7 +7,7 @@ namespace TestConnectors
 {
     public class Main : MonoBehaviour
     {
-        [SerializeField] private float spawnRadius = ProjectSettings.SphereCount;
+        [SerializeField] private float spawnRadius = ProjectSettings.SpawnRadius;
         [SerializeField] private int sphereCount = ProjectSettings.SphereCount;
         
         private IPlayerCamera _playerCamera;

@@ -17,7 +17,7 @@ namespace TestConnectors.Connectable
 
         private IResourceManager _resourceManager;
         public IInputProvider _inputProvider;
-        public Camera _camera;
+        public IPlayerCamera _playerCamera;
 
         public BaseSelectionState CurrentState;
         public readonly UnselectedState UnselectedState = new UnselectedState();
@@ -28,18 +28,17 @@ namespace TestConnectors.Connectable
         {
             _resourceManager = CompositionRoot.GetResourceManager();
             _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
-            _camera = CompositionRoot.GetPlayerCamera().Camera;
+            _playerCamera = CompositionRoot.GetPlayerCamera();
         }
 
         private void Start()
         {
             CurrentState = UnselectedState;
-            
+
             _inputProvider.MouseDown += CheckIfPlatformCanBeSelected;
             _inputProvider.MouseUp += DeselectMovablePlatform;
             _inputProvider.MouseStateChanged += TryMoveConnectable;
             _inputProvider.MouseStateChanged += (_) => CurrentState.UpdateState(this);
-
         }
 
         public void SpawnObjects(int count, float spawnRadius)
@@ -59,7 +58,7 @@ namespace TestConnectors.Connectable
 
         private void CheckIfPlatformCanBeSelected()
         {
-            var ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
+            var ray = _playerCamera.Camera.ScreenPointToRay(_inputProvider.MousePosition);
 
             if (Physics.Raycast(ray, out var hit))
             {
@@ -78,9 +77,10 @@ namespace TestConnectors.Connectable
             if (_selectedPlatform == null) return;
 
             var connectable = _selectedPlatform.transform.parent;
-            
+
             connectable.position =
-                _camera.ScreenToWorldPoint(new Vector3(value.x, value.y, _camera.transform.position.y));
+                _playerCamera.Camera.ScreenToWorldPoint(new Vector3(value.x, value.y,
+                    _playerCamera.Camera.transform.position.y));
         }
 
         #endregion
@@ -110,10 +110,11 @@ namespace TestConnectors.Connectable
             }
         }
 
-        public void CreateConnection(Transform point1, Transform point2)
+        public Line CreateConnection(Transform point1, Transform point2)
         {
             var connection = _resourceManager.LoadResource<Line, EConnection>(EConnection.RegularLine);
-            connection.CreateLine(point1, point2);
+            connection.SetConnectionPoints(point1, point2);
+            return connection;
         }
 
         public void ChangeSelectionState(BaseSelectionState state)

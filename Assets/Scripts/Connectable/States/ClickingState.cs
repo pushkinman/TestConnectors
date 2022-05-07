@@ -14,7 +14,7 @@ namespace TestConnectors.Connectable.States
 
             if (connectablesManager._inputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesManager._camera.ScreenPointToRay(connectablesManager._inputProvider.MousePosition);
+                var ray = connectablesManager._playerCamera.Camera.ScreenPointToRay(connectablesManager._inputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
                 {
