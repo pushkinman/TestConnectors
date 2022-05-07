@@ -8,14 +8,9 @@ namespace TestConnectors.Input
     {
         public event Action MouseDown;
         public event Action MouseUp;
-        public event Action<Vector3> MousePositionChanged;
+        public event Action<Vector3> MouseStateChanged;
 
         public Vector3 MousePosition => UnityEngine.Input.mousePosition;
-
-        public bool IsMouseButtonDown(int button)
-        {
-            return UnityEngine.Input.GetMouseButton(button);
-        }
 
         private void Update()
         {
@@ -34,10 +29,24 @@ namespace TestConnectors.Input
                 MouseUp?.Invoke();
             }
 
-            if (UnityEngine.Input.GetMouseButton(0))
-            {
-                MousePositionChanged?.Invoke(UnityEngine.Input.mousePosition);
-            }
+            if (UnityEngine.Input.GetMouseButtonDown(0) || UnityEngine.Input.GetMouseButtonUp(0) ||
+                UnityEngine.Input.GetMouseButton(0))
+                MouseStateChanged?.Invoke(UnityEngine.Input.mousePosition);
+        }
+
+        public bool GetMouseButtonDown(int button)
+        {
+            return UnityEngine.Input.GetMouseButtonDown(button);
+        }
+
+        public bool GetMouseButtonUp(int button)
+        {
+            return UnityEngine.Input.GetMouseButtonUp(button);
+        }
+
+        public bool GetMouseButton(int button)
+        {
+            return UnityEngine.Input.GetMouseButton(button);
         }
     }
 }

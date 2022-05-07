@@ -7,9 +7,11 @@ namespace TestConnectors.Interfaces
     {
         event Action MouseDown;
         event Action MouseUp;
-        event Action<Vector3> MousePositionChanged;
+        event Action<Vector3> MouseStateChanged;
 
         Vector3 MousePosition { get; }
-        bool IsMouseButtonDown(int button);
+        bool GetMouseButtonDown(int button);
+        bool GetMouseButtonUp(int button);
+        bool GetMouseButton(int button);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TestConnectors.Connectable.States;
 using TestConnectors.Enums;
 using TestConnectors.Interfaces;
 using TestConnectors.Settings;
@@ -10,15 +11,18 @@ namespace TestConnectors.Connectable
 {
     public class ConnectablesManager : MonoBehaviour, IConnectablesManager
     {
-        public EConnectable SelectingState { get; set; }
-
         private List<Connectable> _connectables = new List<Connectable>();
         private MovablePlatform _selectedPlatform;
-        private SelectableSphere _selectedSphere;
+        public SelectableSphere _selectedSphere;
 
         private IResourceManager _resourceManager;
-        private IInputProvider _inputProvider;
-        private Camera _camera;
+        public IInputProvider _inputProvider;
+        public Camera _camera;
+
+        public BaseSelectionState CurrentState;
+        public readonly UnselectedState UnselectedState = new UnselectedState();
+        public HoldingState HoldingState = new HoldingState();
+        public ClickingState ClickingState = new ClickingState();
 
         private void Awake()
         {
@@ -29,10 +33,12 @@ namespace TestConnectors.Connectable
 
         private void Start()
         {
+            CurrentState = UnselectedState;
+            
             _inputProvider.MouseDown += CheckIfPlatformCanBeSelected;
             _inputProvider.MouseUp += DeselectMovablePlatform;
-            _inputProvider.MousePositionChanged += TryMoveConnectable;
-            _inputProvider.MouseDown += CheckIfSphereCanBeSelected;
+            _inputProvider.MouseStateChanged += TryMoveConnectable;
+            _inputProvider.MouseStateChanged += (_) => CurrentState.UpdateState(this);
 
         }
 
@@ -79,59 +85,23 @@ namespace TestConnectors.Connectable
 
         #endregion
 
-        private void CheckIfSphereCanBeSelected()
-        {
-            var ray = _camera.ScreenPointToRay(_inputProvider.MousePosition);
-
-            if (Physics.Raycast(ray, out var hit))
-            {
-                var objectHit = hit.transform;
-                var hitSphere = objectHit.GetComponent<SelectableSphere>();
-                
-                if (hitSphere == null)
-                {
-                    DeselectSphere();
-                }
-                else
-                {
-                    if (_selectedSphere != null)
-                    {
-                        CreateConnection(_selectedSphere.transform, hitSphere.transform);
-                        DeselectSphere();
-                    }
-                    else
-                    {
-                        hitSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
-                        _selectedSphere = hitSphere;
-                        UpdateSelectingState(ESelectingState.ClickingSelection);
-                    }
-                    
-                }
-            }
-            else
-            {
-                DeselectSphere();
-            }
-        }
-
-        private void DeselectSphere()
+        public void DeselectSphere()
         {
             if (_selectedSphere == null) return;
             _selectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
             _selectedSphere = null;
-            UpdateSelectingState(ESelectingState.Unselected);
         }
 
-        private void UpdateSelectingState(ESelectingState selectingState)
+        public void UpdateSpheres(bool isColored)
         {
-            if (selectingState == ESelectingState.ClickingSelection)
+            if (isColored)
             {
                 foreach (var connectable in _connectables)
                 {
                     connectable.UpdateSphereMaterial();
                 }
             }
-            else if (selectingState == ESelectingState.Unselected)
+            else
             {
                 foreach (var connectable in _connectables)
                 {
@@ -140,10 +110,16 @@ namespace TestConnectors.Connectable
             }
         }
 
-        private void CreateConnection(Transform point1, Transform point2)
+        public void CreateConnection(Transform point1, Transform point2)
         {
             var connection = _resourceManager.LoadResource<Line, EConnection>(EConnection.RegularLine);
             connection.CreateLine(point1, point2);
+        }
+
+        public void ChangeSelectionState(BaseSelectionState state)
+        {
+            CurrentState = state;
+            CurrentState.EnterState(this);
         }
     }
 }
