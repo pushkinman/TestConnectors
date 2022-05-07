@@ -1,5 +1,6 @@
 ﻿using System;
 using TestConnectors.Interfaces;
+using TestConnectors.Settings;
 using UnityEngine;
 
 namespace TestConnectors.Cameras
@@ -22,7 +23,7 @@ namespace TestConnectors.Cameras
         {
             var mousePosition = _inputProvider.MousePosition;
             CursorTransform.position = Camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y,
-                Camera.transform.position.y));
+                Camera.transform.position.y)) + new Vector3(0,+ ProjectSettings.SphereOffset, 0);
         }
     }
 }

@@ -6,16 +6,16 @@ namespace TestConnectors.Connectable.States
 {
     public class UnselectedState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesManager connectablesManager)
+        public override void EnterState(ConnectablesStateManager connectablesStateManager)
         {
-            connectablesManager.UpdateSpheres(false);
+            connectablesStateManager.UpdateSpheres(false);
         }
 
-        public override void UpdateState(ConnectablesManager connectablesManager)
+        public override void UpdateState(ConnectablesStateManager connectablesStateManager)
         {
-            if (connectablesManager._inputProvider.GetMouseButtonDown(0) == true)
+            if (connectablesStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesManager._playerCamera.Camera.ScreenPointToRay(connectablesManager._inputProvider
+                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager.InputProvider
                     .MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
@@ -26,9 +26,9 @@ namespace TestConnectors.Connectable.States
                     if (hitSphere == null) return;
 
                     hitSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
-                    connectablesManager._selectedSphere = hitSphere;
+                    connectablesStateManager.SelectedSphere = hitSphere;
 
-                    connectablesManager.ChangeSelectionState(connectablesManager.HoldingState);
+                    connectablesStateManager.ChangeSelectionState(connectablesStateManager.HoldingState);
                 }
             }
         }

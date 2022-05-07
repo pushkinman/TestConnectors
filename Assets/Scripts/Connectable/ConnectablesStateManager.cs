@@ -9,48 +9,67 @@ using Random = UnityEngine.Random;
 
 namespace TestConnectors.Connectable
 {
-    public class ConnectablesManager : MonoBehaviour, IConnectablesManager
+    public class ConnectablesStateManager : MonoBehaviour, IConnectablesManager
     {
-        private List<Connectable> _connectables = new List<Connectable>();
+        private readonly List<Connectable> _connectables = new List<Connectable>();
         private MovablePlatform _selectedPlatform;
-        public SelectableSphere _selectedSphere;
+
+        private GameObject _sphereHolder;
+        private GameObject _connectionHolder;
 
         private IResourceManager _resourceManager;
-        public IInputProvider _inputProvider;
-        public IPlayerCamera _playerCamera;
 
-        public BaseSelectionState CurrentState;
+        private BaseSelectionState _currentState;
         public readonly UnselectedState UnselectedState = new UnselectedState();
-        public HoldingState HoldingState = new HoldingState();
-        public ClickingState ClickingState = new ClickingState();
+        public readonly HoldingState HoldingState = new HoldingState();
+        public readonly ClickingState ClickingState = new ClickingState();
+
+        public SelectableSphere SelectedSphere { get; set; }
+        public IInputProvider InputProvider { get; private set; }
+        public IPlayerCamera PlayerCamera { get; private set; }
 
         private void Awake()
         {
             _resourceManager = CompositionRoot.GetResourceManager();
-            _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
-            _playerCamera = CompositionRoot.GetPlayerCamera();
+            InputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
+            PlayerCamera = CompositionRoot.GetPlayerCamera();
+
+            _sphereHolder = new GameObject(ProjectSettings.SphereHolderName);
+            _connectionHolder = new GameObject(ProjectSettings.ConnectionHolderName);
         }
 
         private void Start()
         {
-            CurrentState = UnselectedState;
+            _currentState = UnselectedState;
 
-            _inputProvider.MouseDown += CheckIfPlatformCanBeSelected;
-            _inputProvider.MouseUp += DeselectMovablePlatform;
-            _inputProvider.MouseStateChanged += TryMoveConnectable;
-            _inputProvider.MouseStateChanged += (_) => CurrentState.UpdateState(this);
+            InputProvider.MouseDown += CheckIfPlatformCanBeSelected;
+            InputProvider.MouseUp += DeselectMovablePlatform;
+            InputProvider.MouseStateChanged += TryMoveConnectable;
+            InputProvider.MouseStateChanged += UpdateState;
+        }
+
+        private void OnDestroy()
+        {
+            InputProvider.MouseDown -= CheckIfPlatformCanBeSelected;
+            InputProvider.MouseUp -= DeselectMovablePlatform;
+            InputProvider.MouseStateChanged -= TryMoveConnectable;
+            InputProvider.MouseStateChanged -= UpdateState;
+        }
+
+        private void UpdateState(Vector3 mousePosition)
+        {
+            _currentState.UpdateState(this);
         }
 
         public void SpawnObjects(int count, float spawnRadius)
         {
-            var sphereHolder = new GameObject(ProjectSettings.SphereHolderName);
             for (var i = 0; i < count; i++)
             {
                 var connectable = _resourceManager.LoadResource<Connectable, EConnectable>(EConnectable.Connectable);
                 _connectables.Add(connectable);
                 var randomPosition = Random.insideUnitCircle * spawnRadius;
                 connectable.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-                connectable.transform.SetParent(sphereHolder.transform);
+                connectable.transform.SetParent(_sphereHolder.transform);
             }
         }
 
@@ -58,7 +77,7 @@ namespace TestConnectors.Connectable
 
         private void CheckIfPlatformCanBeSelected()
         {
-            var ray = _playerCamera.Camera.ScreenPointToRay(_inputProvider.MousePosition);
+            var ray = PlayerCamera.Camera.ScreenPointToRay(InputProvider.MousePosition);
 
             if (Physics.Raycast(ray, out var hit))
             {
@@ -79,17 +98,17 @@ namespace TestConnectors.Connectable
             var connectable = _selectedPlatform.transform.parent;
 
             connectable.position =
-                _playerCamera.Camera.ScreenToWorldPoint(new Vector3(value.x, value.y,
-                    _playerCamera.Camera.transform.position.y));
+                PlayerCamera.Camera.ScreenToWorldPoint(new Vector3(value.x, value.y,
+                    PlayerCamera.Camera.transform.position.y));
         }
 
         #endregion
 
         public void DeselectSphere()
         {
-            if (_selectedSphere == null) return;
-            _selectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
-            _selectedSphere = null;
+            if (SelectedSphere == null) return;
+            SelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
+            SelectedSphere = null;
         }
 
         public void UpdateSpheres(bool isColored)
@@ -113,14 +132,15 @@ namespace TestConnectors.Connectable
         public Line CreateConnection(Transform point1, Transform point2)
         {
             var connection = _resourceManager.LoadResource<Line, EConnection>(EConnection.RegularLine);
+            connection.transform.SetParent(_connectionHolder.transform);
             connection.SetConnectionPoints(point1, point2);
             return connection;
         }
 
         public void ChangeSelectionState(BaseSelectionState state)
         {
-            CurrentState = state;
-            CurrentState.EnterState(this);
+            _currentState = state;
+            _currentState.EnterState(this);
         }
     }
 }

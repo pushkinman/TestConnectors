@@ -2,7 +2,7 @@ namespace TestConnectors.Connectable.States
 {
     public abstract class BaseSelectionState
     {
-        public abstract void EnterState(ConnectablesManager connectablesManager);
-        public abstract void UpdateState(ConnectablesManager connectablesManager);
+        public abstract void EnterState(ConnectablesStateManager connectablesStateManager);
+        public abstract void UpdateState(ConnectablesStateManager connectablesStateManager);
     }
 }

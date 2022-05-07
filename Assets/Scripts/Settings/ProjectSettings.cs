@@ -5,6 +5,9 @@ namespace TestConnectors.Settings
         public const int SphereCount = 10;
         public const float SpawnRadius = 10;
 
+        public const float SphereOffset = 1.5f;
+        
         public const string SphereHolderName = "SphereHolder";
+        public const string ConnectionHolderName = "ConnectionHolder";
     }
 }

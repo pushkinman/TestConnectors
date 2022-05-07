@@ -4,31 +4,32 @@ namespace TestConnectors.Connectable.States
 {
     public class ClickingState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesManager connectablesManager)
+        public override void EnterState(ConnectablesStateManager connectablesStateManager)
         {
-            connectablesManager.UpdateSpheres(true);
+            connectablesStateManager.UpdateSpheres(true);
         }
 
-        public override void UpdateState(ConnectablesManager connectablesManager)
+        public override void UpdateState(ConnectablesStateManager connectablesStateManager)
         {
-
-            if (connectablesManager._inputProvider.GetMouseButtonDown(0) == true)
+            if (connectablesStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesManager._playerCamera.Camera.ScreenPointToRay(connectablesManager._inputProvider.MousePosition);
+                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager.InputProvider
+                    .MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
                 {
                     var objectHit = hit.transform;
                     var hitSphere = objectHit.GetComponent<SelectableSphere>();
 
-                    if (hitSphere != null)
+                    if (hitSphere != null &&
+                        hitSphere.GetInstanceID() != connectablesStateManager.SelectedSphere.GetInstanceID())
                     {
-                        connectablesManager.CreateConnection(connectablesManager._selectedSphere.transform,
+                        connectablesStateManager.CreateConnection(connectablesStateManager.SelectedSphere.transform,
                             hitSphere.transform);
                     }
 
-                    connectablesManager.DeselectSphere();
-                    connectablesManager.ChangeSelectionState(connectablesManager.UnselectedState);
+                    connectablesStateManager.DeselectSphere();
+                    connectablesStateManager.ChangeSelectionState(connectablesStateManager.UnselectedState);
                 }
             }
         }

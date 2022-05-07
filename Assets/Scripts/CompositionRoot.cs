@@ -22,7 +22,7 @@ namespace TestConnectors
         
         public static IConnectablesManager GetSpawner()
         {
-            return _connectablesManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesManager>();
+            return _connectablesManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesStateManager>();
         }
 
         public static IPlayerCamera GetPlayerCamera()
