@@ -15,8 +15,8 @@ namespace TestConnectors.Connectable.States
         {
             if (connectablesStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager.InputProvider
-                    .MousePosition);
+                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager
+                    .InputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
                 {
@@ -25,7 +25,7 @@ namespace TestConnectors.Connectable.States
 
                     if (hitSphere == null) return;
 
-                    hitSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = true;
+                    hitSphere.GetParentConnectable().IsSphereSelected = true;
                     connectablesStateManager.FirstSelectedSphere = hitSphere;
 
                     connectablesStateManager.ChangeSelectionState(connectablesStateManager.HoldingState);

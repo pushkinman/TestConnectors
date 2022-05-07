@@ -7,16 +7,16 @@ namespace TestConnectors.Cameras
 {
     public class PlayerCamera : MonoBehaviour, IPlayerCamera
     {
+        private IInputProvider _inputProvider;
+        
         public Camera Camera { get; set; }
         public Transform CursorTransform { get; set; }
 
-        private IInputProvider _inputProvider;
-
         private void Awake()
         {
+            _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
             Camera = GetComponent<Camera>();
             CursorTransform = new GameObject().transform;
-            _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
         }
 
         private void Update()

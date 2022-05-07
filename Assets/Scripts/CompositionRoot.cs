@@ -8,7 +8,7 @@ using TestConnectors.Resources;
 
 namespace TestConnectors
 {
-    public class CompositionRoot
+    public static class CompositionRoot
     {
         private static IInputManager _inputManager;
         private static IConnectablesManager _connectablesManager;

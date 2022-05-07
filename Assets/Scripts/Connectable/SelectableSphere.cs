@@ -19,5 +19,10 @@ namespace TestConnectors.Connectable
         {
             _meshRenderer.material = material;
         }
+
+        public Connectable GetParentConnectable()
+        {
+            return transform.parent.GetComponent<Connectable>();
+        }
     }
 }

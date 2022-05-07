@@ -86,12 +86,7 @@ namespace TestConnectors.Connectable
                 _selectedPlatform = objectHit.GetComponent<MovablePlatform>();
             }
         }
-
-        private void DeselectMovablePlatform()
-        {
-            _selectedPlatform = null;
-        }
-
+        
         private void TryMoveConnectable(Vector3 value)
         {
             if (_selectedPlatform == null) return;
@@ -101,6 +96,11 @@ namespace TestConnectors.Connectable
             connectable.position =
                 PlayerCamera.Camera.ScreenToWorldPoint(new Vector3(value.x, value.y,
                     PlayerCamera.Camera.transform.position.y));
+        }
+
+        private void DeselectMovablePlatform()
+        {
+            _selectedPlatform = null;
         }
 
         #endregion

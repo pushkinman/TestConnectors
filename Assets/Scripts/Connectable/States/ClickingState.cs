@@ -13,8 +13,8 @@ namespace TestConnectors.Connectable.States
         {
             if (connectablesStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager.InputProvider
-                    .MousePosition);
+                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager
+                    .InputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
                 {
@@ -24,7 +24,8 @@ namespace TestConnectors.Connectable.States
                     if (hitSphere != null &&
                         hitSphere.GetInstanceID() != connectablesStateManager.FirstSelectedSphere.GetInstanceID())
                     {
-                        connectablesStateManager.CreateConnection(connectablesStateManager.FirstSelectedSphere.transform,
+                        connectablesStateManager.CreateConnection(
+                            connectablesStateManager.FirstSelectedSphere.transform,
                             hitSphere.transform);
                     }
 

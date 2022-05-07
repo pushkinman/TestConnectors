@@ -13,7 +13,6 @@ namespace TestConnectors
         private IPlayerCamera _playerCamera;
         private IConnectablesManager _connectablesManager;
 
-
         private void Awake()
         {
             _playerCamera = CompositionRoot.GetPlayerCamera();

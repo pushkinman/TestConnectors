@@ -10,7 +10,7 @@ namespace TestConnectors.Connectable
     {
         private LineRenderer _lineRenderer;
         private Transform[] _connectionPoints;
-        
+
         private void Awake()
         {
             _lineRenderer = GetComponent<LineRenderer>();
@@ -21,22 +21,22 @@ namespace TestConnectors.Connectable
             if (_connectionPoints == null) return;
             UpdateLinePoints();
         }
-        
+
         public void SetConnectionPoints(params Transform[] connectionPoints)
         {
             _connectionPoints = connectionPoints;
             UpdateLinePoints();
         }
 
-        public void DestroyConnection()
-        {
-            Destroy(gameObject);
-        }
-
         private void UpdateLinePoints()
         {
             var pointPositions = (from point in _connectionPoints select point.position).ToArray();
             _lineRenderer.SetPositions(pointPositions);
+        }
+
+        public void DestroyConnection()
+        {
+            Destroy(gameObject);
         }
     }
 }
