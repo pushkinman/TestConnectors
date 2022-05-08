@@ -22,12 +22,12 @@ namespace TestConnectors.Connectable
             _defaultSphereMaterial = _sphereMeshRenderer.material;
         }
 
-        public void UpdateSphereMaterial()
+        public void SetColoredMaterial()
         {
             selectableSphere.ChangeMaterial(IsSphereSelected ? selectedMaterial : awaitingMaterial);
         }
 
-        public void ResetMaterial()
+        public void SetDefaultMaterial()
         {
             selectableSphere.ChangeMaterial(_defaultSphereMaterial);
         }

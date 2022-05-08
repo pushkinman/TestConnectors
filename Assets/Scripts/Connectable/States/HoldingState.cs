@@ -6,7 +6,7 @@ namespace TestConnectors.Connectable.States
     {
         public override void EnterState(ConnectablesStateManager connectablesStateManager)
         {
-            connectablesStateManager.UpdateSpheres(true);
+            connectablesStateManager.UpdateSpheres();
             connectablesStateManager.CursorConnection = connectablesStateManager.CreateConnection(
                 connectablesStateManager.FirstSelectedSphere.transform,
                 connectablesStateManager.PlayerCamera.CursorTransform);
@@ -32,9 +32,11 @@ namespace TestConnectors.Connectable.States
                 {
                     if (hitSphere.GetParentConnectable().IsSphereSelected == true) return;
 
+                    connectablesStateManager.DeselectSecondSphere();
                     connectablesStateManager.SecondSelectedSphere = hitSphere;
                     connectablesStateManager.SecondSelectedSphere.GetParentConnectable().IsSphereSelected = true;
-                    connectablesStateManager.UpdateSpheres(true);
+
+                    connectablesStateManager.UpdateSpheres();
                 }
                 else
                 {

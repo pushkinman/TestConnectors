@@ -6,7 +6,7 @@ namespace TestConnectors.Connectable.States
     {
         public override void EnterState(ConnectablesStateManager connectablesStateManager)
         {
-            connectablesStateManager.UpdateSpheres(true);
+            connectablesStateManager.UpdateSpheres();
         }
 
         public override void UpdateState(ConnectablesStateManager connectablesStateManager)

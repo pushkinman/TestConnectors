@@ -8,7 +8,8 @@ namespace TestConnectors.Connectable.States
     {
         public override void EnterState(ConnectablesStateManager connectablesStateManager)
         {
-            connectablesStateManager.UpdateSpheres(false);
+            connectablesStateManager.DeselectAllSpheres();
+            connectablesStateManager.UpdateSpheres();
         }
 
         public override void UpdateState(ConnectablesStateManager connectablesStateManager)

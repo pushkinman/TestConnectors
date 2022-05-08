@@ -108,33 +108,42 @@ namespace TestConnectors.Connectable
         public void DeselectFirstSphere()
         {
             if (FirstSelectedSphere == null) return;
-            FirstSelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
+            FirstSelectedSphere.GetParentConnectable().IsSphereSelected = false;
             FirstSelectedSphere = null;
+            UpdateSpheres();
         }
 
         public void DeselectSecondSphere()
         {
             if (SecondSelectedSphere == null) return;
-
-            SecondSelectedSphere.transform.parent.GetComponent<Connectable>().IsSphereSelected = false;
+            SecondSelectedSphere.GetParentConnectable().IsSphereSelected = false;
             SecondSelectedSphere = null;
+            UpdateSpheres();
         }
 
-        public void UpdateSpheres(bool isColored)
+        public void UpdateSpheres()
         {
-            if (isColored)
+            if (_currentState is HoldingState || _currentState is ClickingState)
             {
                 foreach (var connectable in _connectables)
                 {
-                    connectable.UpdateSphereMaterial();
+                    connectable.SetColoredMaterial();
                 }
             }
-            else
+            else if (_currentState is UnselectedState)
             {
                 foreach (var connectable in _connectables)
                 {
-                    connectable.ResetMaterial();
+                    connectable.SetDefaultMaterial();
                 }
+            }
+        }
+
+        public void DeselectAllSpheres()
+        {
+            foreach (var connectable in _connectables)
+            {
+                connectable.IsSphereSelected = false;
             }
         }
 
