@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace TestConnectors.Connectable
 {
-    public class ConnectablesStateManager : MonoBehaviour, IConnectablesManager
+    public class ConnectablesStateManager : MonoBehaviour, IConnectablesStateManager
     {
         public readonly UnselectedState UnselectedState = new UnselectedState();
         public readonly HoldingState HoldingState = new HoldingState();
@@ -17,7 +17,6 @@ namespace TestConnectors.Connectable
         private BaseSelectionState _currentState;
 
         private readonly List<Connectable> _connectables = new List<Connectable>();
-        private MovablePlatform _selectedPlatform;
 
         private GameObject _sphereHolder;
         private GameObject _connectionHolder;
@@ -42,18 +41,11 @@ namespace TestConnectors.Connectable
         private void Start()
         {
             _currentState = UnselectedState;
-
-            InputProvider.MouseDown += CheckIfPlatformCanBeSelected;
-            InputProvider.MouseUp += DeselectMovablePlatform;
-            InputProvider.MouseStateChanged += TryMoveConnectable;
             InputProvider.MouseStateChanged += UpdateState;
         }
 
         private void OnDestroy()
         {
-            InputProvider.MouseDown -= CheckIfPlatformCanBeSelected;
-            InputProvider.MouseUp -= DeselectMovablePlatform;
-            InputProvider.MouseStateChanged -= TryMoveConnectable;
             InputProvider.MouseStateChanged -= UpdateState;
         }
 
@@ -73,37 +65,6 @@ namespace TestConnectors.Connectable
                 connectable.transform.SetParent(_sphereHolder.transform);
             }
         }
-
-        #region Platform Movement
-
-        private void CheckIfPlatformCanBeSelected()
-        {
-            var ray = PlayerCamera.Camera.ScreenPointToRay(InputProvider.MousePosition);
-
-            if (Physics.Raycast(ray, out var hit))
-            {
-                var objectHit = hit.transform;
-                _selectedPlatform = objectHit.GetComponent<MovablePlatform>();
-            }
-        }
-        
-        private void TryMoveConnectable(Vector3 value)
-        {
-            if (_selectedPlatform == null) return;
-
-            var connectable = _selectedPlatform.transform.parent;
-
-            connectable.position =
-                PlayerCamera.Camera.ScreenToWorldPoint(new Vector3(value.x, value.y,
-                    PlayerCamera.Camera.transform.position.y));
-        }
-
-        private void DeselectMovablePlatform()
-        {
-            _selectedPlatform = null;
-        }
-
-        #endregion
 
         public void DeselectFirstSphere()
         {

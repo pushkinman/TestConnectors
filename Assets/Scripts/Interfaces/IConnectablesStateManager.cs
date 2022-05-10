@@ -2,7 +2,7 @@ using TestConnectors.Enums;
 
 namespace TestConnectors.Interfaces
 {
-    public interface IConnectablesManager
+    public interface IConnectablesStateManager
     {
         void SpawnObjects(int count, float spawnRadius);
     }

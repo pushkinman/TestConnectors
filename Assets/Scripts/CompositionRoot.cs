@@ -11,7 +11,8 @@ namespace TestConnectors
     public static class CompositionRoot
     {
         private static IInputManager _inputManager;
-        private static IConnectablesManager _connectablesManager;
+        private static IConnectablesStateManager _connectablesStateManager;
+        private static IConnectablesMover _connectablesMover;
         private static IPlayerCamera _playerCamera;
         private static IResourceManager _resourceManager;
 
@@ -20,9 +21,14 @@ namespace TestConnectors
             return _inputManager ??= new InputManager();
         }
         
-        public static IConnectablesManager GetSpawner()
+        public static IConnectablesStateManager GetConnectablesStateManager()
         {
-            return _connectablesManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesStateManager>();
+            return _connectablesStateManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesStateManager>();
+        }
+        
+        public static IConnectablesMover GetConnectablesMover()
+        {
+            return _connectablesMover ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesMover>();
         }
 
         public static IPlayerCamera GetPlayerCamera()
