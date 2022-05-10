@@ -16,7 +16,7 @@ namespace TestConnectors.Cameras
         {
             _inputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
             Camera = GetComponent<Camera>();
-            CursorTransform = new GameObject().transform;
+            CursorTransform = new GameObject(ProjectSettings.CursorGameObjectName).transform;
         }
 
         private void Update()

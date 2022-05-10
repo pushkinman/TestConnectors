@@ -11,19 +11,19 @@ namespace TestConnectors
         [SerializeField] private int sphereCount = ProjectSettings.SphereCount;
         
         private IPlayerCamera _playerCamera;
-        private IConnectablesStateManager _connectablesStateManager;
+        private IConnectablesSelectionStateManager _connectablesSelectionStateManager;
         private IConnectablesMover _connectablesMover;
 
         private void Awake()
         {
             _playerCamera = CompositionRoot.GetPlayerCamera();
-            _connectablesStateManager = CompositionRoot.GetConnectablesStateManager();
+            _connectablesSelectionStateManager = CompositionRoot.GetConnectablesStateManager();
             _connectablesMover = CompositionRoot.GetConnectablesMover();
         }
 
         private void Start()
         {
-            _connectablesStateManager.SpawnObjects(sphereCount, spawnRadius);
+            _connectablesSelectionStateManager.SpawnObjects(sphereCount, spawnRadius);
         }
     }
 }

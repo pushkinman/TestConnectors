@@ -4,23 +4,23 @@ namespace TestConnectors.Connectable.States
 {
     public class HoldingState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesStateManager connectablesStateManager)
+        public override void EnterState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            connectablesStateManager.UpdateSpheres();
-            connectablesStateManager.CursorConnection = connectablesStateManager.CreateConnection(
-                connectablesStateManager.FirstSelectedSphere.transform,
-                connectablesStateManager.PlayerCamera.CursorTransform);
+            connectablesSelectionSelectionStateManager.UpdateSpheres();
+            connectablesSelectionSelectionStateManager.CursorConnection = connectablesSelectionSelectionStateManager.CreateConnection(
+                connectablesSelectionSelectionStateManager.FirstSelectedSphere.transform,
+                connectablesSelectionSelectionStateManager.PlayerCamera.CursorTransform);
         }
 
-        public override void UpdateState(ConnectablesStateManager connectablesStateManager)
+        public override void UpdateState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            HighlightPotentialSphere(connectablesStateManager);
-            TryCreateAConnection(connectablesStateManager);
+            HighlightPotentialSphere(connectablesSelectionSelectionStateManager);
+            TryCreateAConnection(connectablesSelectionSelectionStateManager);
         }
 
-        private void HighlightPotentialSphere(ConnectablesStateManager connectablesStateManager)
+        private void HighlightPotentialSphere(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager
+            var ray = connectablesSelectionSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionSelectionStateManager
                 .InputProvider.MousePosition);
 
             if (Physics.Raycast(ray, out var hit))
@@ -32,25 +32,25 @@ namespace TestConnectors.Connectable.States
                 {
                     if (hitSphere.GetParentConnectable().IsSphereSelected == true) return;
 
-                    connectablesStateManager.DeselectSecondSphere();
-                    connectablesStateManager.SecondSelectedSphere = hitSphere;
-                    connectablesStateManager.SecondSelectedSphere.GetParentConnectable().IsSphereSelected = true;
+                    connectablesSelectionSelectionStateManager.DeselectSecondSphere();
+                    connectablesSelectionSelectionStateManager.SecondSelectedSphere = hitSphere;
+                    connectablesSelectionSelectionStateManager.SecondSelectedSphere.GetParentConnectable().IsSphereSelected = true;
 
-                    connectablesStateManager.UpdateSpheres();
+                    connectablesSelectionSelectionStateManager.UpdateSpheres();
                 }
                 else
                 {
-                    connectablesStateManager.DeselectSecondSphere();
+                    connectablesSelectionSelectionStateManager.DeselectSecondSphere();
                 }
             }
         }
 
-        private void TryCreateAConnection(ConnectablesStateManager connectablesStateManager)
+        private void TryCreateAConnection(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager
+            var ray = connectablesSelectionSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionSelectionStateManager
                 .InputProvider.MousePosition);
 
-            if (connectablesStateManager.InputProvider.GetMouseButtonUp(0) == true)
+            if (connectablesSelectionSelectionStateManager.InputProvider.GetMouseButtonUp(0) == true)
             {
                 if (Physics.Raycast(ray, out var hit))
                 {
@@ -59,31 +59,31 @@ namespace TestConnectors.Connectable.States
 
                     if (hitSphere == null)
                     {
-                        connectablesStateManager.DestroyCursorConnection();
-                        connectablesStateManager.DeselectSecondSphere();
-                        connectablesStateManager.ChangeSelectionState(connectablesStateManager.UnselectedState);
+                        connectablesSelectionSelectionStateManager.DestroyCursorConnection();
+                        connectablesSelectionSelectionStateManager.DeselectSecondSphere();
+                        connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.UnselectedState);
                         return;
                     }
 
-                    if (hitSphere.GetInstanceID() == connectablesStateManager.FirstSelectedSphere.GetInstanceID())
+                    if (hitSphere.GetInstanceID() == connectablesSelectionSelectionStateManager.FirstSelectedSphere.GetInstanceID())
                     {
-                        connectablesStateManager.DestroyCursorConnection();
-                        connectablesStateManager.ChangeSelectionState(connectablesStateManager.ClickingState);
+                        connectablesSelectionSelectionStateManager.DestroyCursorConnection();
+                        connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.ClickingState);
                         return;
                     }
 
-                    connectablesStateManager.UpdateCursorConnectionPoints(
-                        connectablesStateManager.FirstSelectedSphere.transform,
+                    connectablesSelectionSelectionStateManager.UpdateCursorConnectionPoints(
+                        connectablesSelectionSelectionStateManager.FirstSelectedSphere.transform,
                         hitSphere.transform);
-                    connectablesStateManager.DeselectFirstSphere();
-                    connectablesStateManager.DeselectSecondSphere();
+                    connectablesSelectionSelectionStateManager.DeselectFirstSphere();
+                    connectablesSelectionSelectionStateManager.DeselectSecondSphere();
 
-                    connectablesStateManager.ChangeSelectionState(connectablesStateManager.UnselectedState);
+                    connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.UnselectedState);
                 }
                 else
                 {
-                    connectablesStateManager.DestroyCursorConnection();
-                    connectablesStateManager.ChangeSelectionState(connectablesStateManager.UnselectedState);
+                    connectablesSelectionSelectionStateManager.DestroyCursorConnection();
+                    connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.UnselectedState);
                 }
             }
         }

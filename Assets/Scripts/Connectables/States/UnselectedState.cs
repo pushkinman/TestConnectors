@@ -6,17 +6,17 @@ namespace TestConnectors.Connectable.States
 {
     public class UnselectedState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesStateManager connectablesStateManager)
+        public override void EnterState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            connectablesStateManager.DeselectAllSpheres();
-            connectablesStateManager.UpdateSpheres();
+            connectablesSelectionSelectionStateManager.DeselectAllSpheres();
+            connectablesSelectionSelectionStateManager.UpdateSpheres();
         }
 
-        public override void UpdateState(ConnectablesStateManager connectablesStateManager)
+        public override void UpdateState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
         {
-            if (connectablesStateManager.InputProvider.GetMouseButtonDown(0) == true)
+            if (connectablesSelectionSelectionStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesStateManager
+                var ray = connectablesSelectionSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionSelectionStateManager
                     .InputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
@@ -27,9 +27,9 @@ namespace TestConnectors.Connectable.States
                     if (hitSphere == null) return;
 
                     hitSphere.GetParentConnectable().IsSphereSelected = true;
-                    connectablesStateManager.FirstSelectedSphere = hitSphere;
+                    connectablesSelectionSelectionStateManager.FirstSelectedSphere = hitSphere;
 
-                    connectablesStateManager.ChangeSelectionState(connectablesStateManager.HoldingState);
+                    connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.HoldingState);
                 }
             }
         }

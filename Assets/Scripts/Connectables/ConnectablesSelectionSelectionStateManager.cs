@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace TestConnectors.Connectable
 {
-    public class ConnectablesStateManager : MonoBehaviour, IConnectablesStateManager
+    public class ConnectablesSelectionSelectionStateManager : MonoBehaviour, IConnectablesSelectionStateManager
     {
         public readonly UnselectedState UnselectedState = new UnselectedState();
         public readonly HoldingState HoldingState = new HoldingState();

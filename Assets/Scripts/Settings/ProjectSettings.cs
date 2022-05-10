@@ -9,5 +9,6 @@ namespace TestConnectors.Settings
         
         public const string SphereHolderName = "SphereHolder";
         public const string ConnectionHolderName = "ConnectionHolder";
+        public const string CursorGameObjectName = "CursorTransform";
     }
 }
