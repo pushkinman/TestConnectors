@@ -1,9 +1,6 @@
-using System;
-using TestConnectors.Enums;
-using TMPro;
 using UnityEngine;
 
-namespace TestConnectors.Connectable
+namespace TestConnectors.Connectables
 {
     [RequireComponent(typeof(MeshRenderer))]
     public class SelectableSphere : MonoBehaviour
@@ -22,7 +19,7 @@ namespace TestConnectors.Connectable
 
         public Connectable GetParentConnectable()
         {
-            return transform.parent.GetComponent<Connectable>();
+            return transform.parent.GetComponent<Connectables.Connectable>();
         }
     }
 }

@@ -1,24 +1,19 @@
-using System;
 using System.Collections.Generic;
-using TestConnectors.Connectable.States;
+using TestConnectors.Connectables.States;
 using TestConnectors.Enums;
 using TestConnectors.Interfaces;
 using TestConnectors.Settings;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace TestConnectors.Connectable
+namespace TestConnectors.Connectables
 {
-    public class ConnectablesSelectionSelectionStateManager : MonoBehaviour, IConnectablesSelectionStateManager
+    public class ConnectablesSelectionStateManager : MonoBehaviour, IConnectablesSelectionStateManager
     {
         public readonly UnselectedState UnselectedState = new UnselectedState();
         public readonly HoldingState HoldingState = new HoldingState();
         public readonly ClickingState ClickingState = new ClickingState();
         private BaseSelectionState _currentState;
 
-        private readonly List<Connectable> _connectables = new List<Connectable>();
-
-        private GameObject _sphereHolder;
         private GameObject _connectionHolder;
 
         private IResourceManager _resourceManager;
@@ -27,6 +22,7 @@ namespace TestConnectors.Connectable
         public Line CursorConnection { get; set; }
         public IInputProvider InputProvider { get; private set; }
         public IPlayerCamera PlayerCamera { get; private set; }
+        public IEnumerable<Connectable> Connectables { get; set; }
 
         private void Awake()
         {
@@ -34,7 +30,6 @@ namespace TestConnectors.Connectable
             InputProvider = CompositionRoot.GetInputManager().InputProviderInGame;
             PlayerCamera = CompositionRoot.GetPlayerCamera();
 
-            _sphereHolder = new GameObject(ProjectSettings.SphereHolderName);
             _connectionHolder = new GameObject(ProjectSettings.ConnectionHolderName);
         }
 
@@ -52,18 +47,6 @@ namespace TestConnectors.Connectable
         private void UpdateState(Vector3 mousePosition)
         {
             _currentState.UpdateState(this);
-        }
-
-        public void SpawnObjects(int count, float spawnRadius)
-        {
-            for (var i = 0; i < count; i++)
-            {
-                var connectable = _resourceManager.LoadResource<Connectable, EConnectable>(EConnectable.Connectable);
-                _connectables.Add(connectable);
-                var randomPosition = Random.insideUnitCircle * spawnRadius;
-                connectable.transform.position = new Vector3(randomPosition.x, 0, randomPosition.y);
-                connectable.transform.SetParent(_sphereHolder.transform);
-            }
         }
 
         public void DeselectFirstSphere()
@@ -86,14 +69,14 @@ namespace TestConnectors.Connectable
         {
             if (_currentState is HoldingState || _currentState is ClickingState)
             {
-                foreach (var connectable in _connectables)
+                foreach (var connectable in Connectables)
                 {
                     connectable.SetColoredMaterial();
                 }
             }
             else if (_currentState is UnselectedState)
             {
-                foreach (var connectable in _connectables)
+                foreach (var connectable in Connectables)
                 {
                     connectable.SetDefaultMaterial();
                 }
@@ -102,7 +85,7 @@ namespace TestConnectors.Connectable
 
         public void DeselectAllSpheres()
         {
-            foreach (var connectable in _connectables)
+            foreach (var connectable in Connectables)
             {
                 connectable.IsSphereSelected = false;
             }

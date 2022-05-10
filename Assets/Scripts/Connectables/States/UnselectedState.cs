@@ -1,22 +1,20 @@
-using TestConnectors.Enums;
-using TestConnectors.Interfaces;
 using UnityEngine;
 
-namespace TestConnectors.Connectable.States
+namespace TestConnectors.Connectables.States
 {
     public class UnselectedState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
+        public override void EnterState(ConnectablesSelectionStateManager connectablesSelectionStateManager)
         {
-            connectablesSelectionSelectionStateManager.DeselectAllSpheres();
-            connectablesSelectionSelectionStateManager.UpdateSpheres();
+            connectablesSelectionStateManager.DeselectAllSpheres();
+            connectablesSelectionStateManager.UpdateSpheres();
         }
 
-        public override void UpdateState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
+        public override void UpdateState(ConnectablesSelectionStateManager connectablesSelectionStateManager)
         {
-            if (connectablesSelectionSelectionStateManager.InputProvider.GetMouseButtonDown(0) == true)
+            if (connectablesSelectionStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesSelectionSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionSelectionStateManager
+                var ray = connectablesSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionStateManager
                     .InputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
@@ -27,9 +25,9 @@ namespace TestConnectors.Connectable.States
                     if (hitSphere == null) return;
 
                     hitSphere.GetParentConnectable().IsSphereSelected = true;
-                    connectablesSelectionSelectionStateManager.FirstSelectedSphere = hitSphere;
+                    connectablesSelectionStateManager.FirstSelectedSphere = hitSphere;
 
-                    connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.HoldingState);
+                    connectablesSelectionStateManager.ChangeSelectionState(connectablesSelectionStateManager.HoldingState);
                 }
             }
         }

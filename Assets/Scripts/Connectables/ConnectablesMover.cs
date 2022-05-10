@@ -1,15 +1,13 @@
-using System;
 using TestConnectors.Interfaces;
 using UnityEngine;
 
-namespace TestConnectors.Connectable
+namespace TestConnectors.Connectables
 {
     public class ConnectablesMover : MonoBehaviour, IConnectablesMover
     {
         private MovablePlatform _selectedPlatform;
-
-        public IInputProvider _inputProvider;
-        public IPlayerCamera _playerCamera;
+        private IInputProvider _inputProvider;
+        private IPlayerCamera _playerCamera;
         
         private void Awake()
         {

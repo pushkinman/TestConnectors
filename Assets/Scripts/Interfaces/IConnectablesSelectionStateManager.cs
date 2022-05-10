@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using TestConnectors.Enums;
 
 namespace TestConnectors.Interfaces
 {
     public interface IConnectablesSelectionStateManager
     {
-        void SpawnObjects(int count, float spawnRadius);
+        IEnumerable<Connectables.Connectable> Connectables { get; set; }
     }
 }

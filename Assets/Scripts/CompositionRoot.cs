@@ -1,5 +1,5 @@
 using TestConnectors.Cameras;
-using TestConnectors.Connectable;
+using TestConnectors.Connectables;
 using TestConnectors.Enums;
 using TestConnectors.Extensions;
 using TestConnectors.Input;
@@ -11,6 +11,7 @@ namespace TestConnectors
     public static class CompositionRoot
     {
         private static IInputManager _inputManager;
+        private static IConnectablesSpawner _connectablesSpawner;
         private static IConnectablesSelectionStateManager _connectablesSelectionStateManager;
         private static IConnectablesMover _connectablesMover;
         private static IPlayerCamera _playerCamera;
@@ -20,12 +21,19 @@ namespace TestConnectors
         {
             return _inputManager ??= new InputManager();
         }
-        
+
+        public static IConnectablesSpawner GetConnectablesSpawner()
+        {
+            return _connectablesSpawner ??= GameObjectExtensions
+                .CreateGameObjectWithComponent<ConnectablesSpawner>();
+        }
+
         public static IConnectablesSelectionStateManager GetConnectablesStateManager()
         {
-            return _connectablesSelectionStateManager ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesSelectionSelectionStateManager>();
+            return _connectablesSelectionStateManager ??= GameObjectExtensions
+                .CreateGameObjectWithComponent<ConnectablesSelectionStateManager>();
         }
-        
+
         public static IConnectablesMover GetConnectablesMover()
         {
             return _connectablesMover ??= GameObjectExtensions.CreateGameObjectWithComponent<ConnectablesMover>();

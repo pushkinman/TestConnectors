@@ -4,7 +4,7 @@ namespace TestConnectors.Interfaces
 {
     public interface IPlayerCamera
     {
-        Camera Camera { get; set; }
-        Transform CursorTransform { get; set; }
+        Camera Camera { get; }
+        Transform CursorTransform { get; }
     }
 }

@@ -1,9 +1,6 @@
-using System;
-using TestConnectors.Enums;
-using TestConnectors.Interfaces;
 using UnityEngine;
 
-namespace TestConnectors.Connectable
+namespace TestConnectors.Connectables
 {
     public class Connectable : MonoBehaviour
     {

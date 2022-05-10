@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace TestConnectors.Connectable
+namespace TestConnectors.Connectables
 {
     [RequireComponent(typeof(LineRenderer))]
     public class Line : MonoBehaviour

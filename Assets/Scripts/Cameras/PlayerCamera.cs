@@ -9,8 +9,8 @@ namespace TestConnectors.Cameras
     {
         private IInputProvider _inputProvider;
         
-        public Camera Camera { get; set; }
-        public Transform CursorTransform { get; set; }
+        public Camera Camera { get; private set; }
+        public Transform CursorTransform { get; private set; }
 
         private void Awake()
         {

@@ -1,19 +1,19 @@
 using UnityEngine;
 
-namespace TestConnectors.Connectable.States
+namespace TestConnectors.Connectables.States
 {
     public class ClickingState : BaseSelectionState
     {
-        public override void EnterState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
+        public override void EnterState(ConnectablesSelectionStateManager connectablesSelectionStateManager)
         {
-            connectablesSelectionSelectionStateManager.UpdateSpheres();
+            connectablesSelectionStateManager.UpdateSpheres();
         }
 
-        public override void UpdateState(ConnectablesSelectionSelectionStateManager connectablesSelectionSelectionStateManager)
+        public override void UpdateState(ConnectablesSelectionStateManager connectablesSelectionStateManager)
         {
-            if (connectablesSelectionSelectionStateManager.InputProvider.GetMouseButtonDown(0) == true)
+            if (connectablesSelectionStateManager.InputProvider.GetMouseButtonDown(0) == true)
             {
-                var ray = connectablesSelectionSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionSelectionStateManager
+                var ray = connectablesSelectionStateManager.PlayerCamera.Camera.ScreenPointToRay(connectablesSelectionStateManager
                     .InputProvider.MousePosition);
 
                 if (Physics.Raycast(ray, out var hit))
@@ -22,15 +22,15 @@ namespace TestConnectors.Connectable.States
                     var hitSphere = objectHit.GetComponent<SelectableSphere>();
 
                     if (hitSphere != null &&
-                        hitSphere.GetInstanceID() != connectablesSelectionSelectionStateManager.FirstSelectedSphere.GetInstanceID())
+                        hitSphere.GetInstanceID() != connectablesSelectionStateManager.FirstSelectedSphere.GetInstanceID())
                     {
-                        connectablesSelectionSelectionStateManager.CreateConnection(
-                            connectablesSelectionSelectionStateManager.FirstSelectedSphere.transform,
+                        connectablesSelectionStateManager.CreateConnection(
+                            connectablesSelectionStateManager.FirstSelectedSphere.transform,
                             hitSphere.transform);
                     }
 
-                    connectablesSelectionSelectionStateManager.DeselectFirstSphere();
-                    connectablesSelectionSelectionStateManager.ChangeSelectionState(connectablesSelectionSelectionStateManager.UnselectedState);
+                    connectablesSelectionStateManager.DeselectFirstSphere();
+                    connectablesSelectionStateManager.ChangeSelectionState(connectablesSelectionStateManager.UnselectedState);
                 }
             }
         }
