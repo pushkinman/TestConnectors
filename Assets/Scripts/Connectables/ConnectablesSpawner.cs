@@ -10,7 +10,6 @@ namespace TestConnectors.Connectables
     public class ConnectablesSpawner : MonoBehaviour, IConnectablesSpawner
     {
         private List<Connectable> _connectables;
-
         private GameObject _sphereHolder;
         private IResourceManager _resourceManager;
 

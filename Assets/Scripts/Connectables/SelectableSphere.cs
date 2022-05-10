@@ -19,7 +19,7 @@ namespace TestConnectors.Connectables
 
         public Connectable GetParentConnectable()
         {
-            return transform.parent.GetComponent<Connectables.Connectable>();
+            return transform.parent.GetComponent<Connectable>();
         }
     }
 }
